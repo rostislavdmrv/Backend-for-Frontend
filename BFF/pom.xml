@@ -29,6 +29,10 @@
         <swagger.version>2.6.0</swagger.version>
         <json-patch>1.13</json-patch>
         <vavr.version>0.10.4</vavr.version>
+        <admin.version>3.0.0</admin.version>
+        <jackson.version>2.17.1</jackson.version>
+        <feign.jackson.version>13.3</feign.jackson.version>
+        <comments.version>0.0.1-SNAPSHOT</comments.version>
         <flattenpomversion>1.2.7</flattenpomversion>
 
     </properties>
@@ -54,7 +58,39 @@
             <artifactId>vavr</artifactId>
             <version>${vavr.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${admin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>${feign.jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tinqinacademy.comments.restexport</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${comments.version}</version>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <plugins>
