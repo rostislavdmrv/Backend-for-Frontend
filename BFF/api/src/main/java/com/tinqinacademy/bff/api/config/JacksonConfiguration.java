@@ -1,7 +1,5 @@
-package com.tinqinacademy.bff.rest.config;
+package com.tinqinacademy.bff.api.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -14,10 +12,10 @@ public class JacksonConfiguration {
     public ObjectMapper objectMapper(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
         return mapper;
     }
 }
