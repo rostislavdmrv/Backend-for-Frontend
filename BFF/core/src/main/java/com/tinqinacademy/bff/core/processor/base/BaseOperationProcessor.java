@@ -1,7 +1,7 @@
 package com.tinqinacademy.bff.core.processor.base;
 
-import com.tinqinacademy.bff.api.base.OperationInput;
-import com.tinqinacademy.bff.api.base.OperationOutput;
+import com.tinqinacademy.bff.api.base.OperationRequest;
+import com.tinqinacademy.bff.api.base.OperationResponse;
 import com.tinqinacademy.bff.api.exceptions.BffValidationException;
 import com.tinqinacademy.bff.api.models.errors.ErrorsResponse;
 import com.tinqinacademy.bff.core.errorhandler.ErrorHandler;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public abstract class BaseOperationProcessor <I extends OperationInput, O extends OperationOutput>{
+public abstract class BaseOperationProcessor <I extends OperationRequest, O extends OperationResponse>{
     protected final ConversionService conversionService;
     protected final Validator validator;
     protected final ErrorHandler errorHandler;
@@ -25,8 +25,8 @@ public abstract class BaseOperationProcessor <I extends OperationInput, O extend
     }
 
 
-    protected void validateInput(OperationInput input) {
-        Set<ConstraintViolation<OperationInput>> violations = validator.validate(input);
+    protected void validateInput(OperationRequest input) {
+        Set<ConstraintViolation<OperationRequest>> violations = validator.validate(input);
 
         if (!violations.isEmpty()) {
             List<ErrorsResponse> errors = buildErrors(violations);
@@ -35,9 +35,9 @@ public abstract class BaseOperationProcessor <I extends OperationInput, O extend
         }
     }
 
-    private List<ErrorsResponse> buildErrors(Set<ConstraintViolation<OperationInput>> violations) {
+    private List<ErrorsResponse> buildErrors(Set<ConstraintViolation<OperationRequest>> violations) {
         List<ErrorsResponse> errors = new ArrayList<>();
-        for (ConstraintViolation<OperationInput> violation : violations) {
+        for (ConstraintViolation<OperationRequest> violation : violations) {
             errors.add(ErrorsResponse.builder()
                     .field(violation.getPropertyPath().toString())
                     .message(violation.getMessage())

@@ -33,6 +33,7 @@
         <jackson.version>2.17.1</jackson.version>
         <feign.jackson.version>13.3</feign.jackson.version>
         <comments.version>0.0.1-SNAPSHOT</comments.version>
+        <hotel.version>0.0.1-SNAPSHOT</hotel.version>
         <flattenpomversion>1.2.7</flattenpomversion>
 
     </properties>
@@ -87,6 +88,25 @@
             <groupId>com.tinqinacademy.comments.restexport</groupId>
             <artifactId>restexport</artifactId>
             <version>${comments.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tinqinacademy.myhotel.restexport</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${hotel.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>13.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>5.0.0-alpha.14</version>
         </dependency>
 
     </dependencies>
