@@ -13,6 +13,23 @@
     <artifactId>domain</artifactId>
     <version>${revision}</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.tinqinacademy.comments.restexport</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${comments.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tinqinacademy.authentication.restexport</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${auth.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+
 
 
 </project>
