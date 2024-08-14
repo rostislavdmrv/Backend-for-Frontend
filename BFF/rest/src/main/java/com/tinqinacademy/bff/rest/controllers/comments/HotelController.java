@@ -1,5 +1,8 @@
 package com.tinqinacademy.bff.rest.controllers.comments;
 
+import com.tinqinacademy.bff.api.operations.comments.leavescommentsforcertainroom.LeaveCommentOperation;
+import com.tinqinacademy.bff.api.operations.comments.leavescommentsforcertainroom.LeaveCommentRequest;
+import com.tinqinacademy.bff.rest.controllers.base.BaseController;
 import com.tinqinacademy.comments.api.operations.editcommentcontentbyuser.EditCommentContentInput;
 import com.tinqinacademy.comments.api.operations.leavescommentsforcertainroom.LeaveCommentInput;
 import com.tinqinacademy.comments.restexport.CommentsClient;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Comments Client hotel - REST APIs")
-public class HotelController {
+public class HotelController extends BaseController {
+
+    private final LeaveCommentOperation leaveCommentOperation;
     private final CommentsClient commentsClient;
 
     @GetMapping("/comments/{roomId}")
@@ -22,8 +27,9 @@ public class HotelController {
     }
 
     @PostMapping("/comments/{roomId}")
-    public ResponseEntity<?> leaveComment(@PathVariable String roomId,@RequestBody LeaveCommentInput input){
-        return new ResponseEntity<>(commentsClient.leaveComment(roomId, input), HttpStatus.OK);
+    public ResponseEntity<?> leaveComment(@PathVariable String roomId,@RequestBody LeaveCommentRequest input){
+        LeaveCommentRequest updated = input.toBuilder().roomId(roomId).build();
+        return handleWithStatus(leaveCommentOperation.process(updated), HttpStatus.OK);
     }
 
     @PatchMapping("/{commentId}/comment")
