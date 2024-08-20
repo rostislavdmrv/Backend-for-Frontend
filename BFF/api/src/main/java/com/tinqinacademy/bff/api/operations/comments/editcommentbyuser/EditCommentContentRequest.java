@@ -16,16 +16,18 @@ import org.hibernate.validator.constraints.UUID;
 public class EditCommentContentRequest implements OperationRequest {
 
     @JsonIgnore
-    @NotBlank
+    @NotBlank(message = "commentId cannot be blank")
     @UUID
-    private String contentId;
+    private String commentId;
 
     @JsonIgnore
     @NotBlank
     @UUID
-    private String authorId;
+    private String userId;
 
     @NotBlank(message = "Content name cannot be blank")
     @Size(min =2,max = 100, message = "content name cannot exceed 100 characters")
     private String content;
+
+
 }

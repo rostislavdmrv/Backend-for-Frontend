@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,8 @@ public class CommentInfoResponse {
     @NotBlank(message = "ID cannot be blank")
     private String id;
 
+    @NotBlank
+    @UUID
     private String userId;
 
     @NotBlank(message = "Content name cannot be blank")

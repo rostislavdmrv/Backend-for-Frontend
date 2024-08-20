@@ -15,7 +15,7 @@ public class LeaveCommentRequestToLeaveCommentInputConverter implements Converte
 
         LeaveCommentInput output = LeaveCommentInput.builder()
                 .content(source.getContent())
-                //.userId(source.getUserId())
+                .userId(source.getUserId())
                 .build();
 
         log.info("End converting from LeaveCommentRequest to LeaveCommentInput with output: {}", output);

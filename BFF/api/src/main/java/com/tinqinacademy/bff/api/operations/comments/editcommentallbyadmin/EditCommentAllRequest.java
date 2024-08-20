@@ -14,18 +14,20 @@ import org.hibernate.validator.constraints.UUID;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class EditCommentAllRequest implements OperationRequest {
-    @JsonIgnore
-    @UUID
+
+
     @NotBlank(message = "Comment ID cannot be blank")
+    @JsonIgnore
     private String commentId;
 
-    @JsonIgnore
-    @NotBlank
-    private String adminId;
-
-    @NotBlank(message = "Room Id cannot be blank")
-    @UUID
+    @UUID(message = "Room id must be in  UUID syntax")
+    @NotBlank(message = "Room id not provided")
     private String roomId;
+
+
+    @UUID(message = "User id must be in UUID syntax")
+    @NotBlank(message = "User id cannot be blank")
+    private String userId;
 
     @NotBlank(message = "Content name cannot be blank")
     @Size(min =2,max = 100, message = "content name cannot exceed 100 characters")

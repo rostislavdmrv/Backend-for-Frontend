@@ -15,7 +15,7 @@ public class EditCommentContentIRequestToEditCommentContentInputConverter implem
 
         EditCommentContentInput output = EditCommentContentInput.builder()
                 .content(source.getContent())
-                //.userId(source.getUserId())
+                .userId(source.getUserId())
                 .build();
 
         log.info("End converting from EditCommentContentRequest to EditCommentContentInput with output: {}", output);

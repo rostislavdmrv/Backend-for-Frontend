@@ -15,7 +15,7 @@ public class CommentInfToCommentInfoResponseConverter implements Converter<Comme
 
         CommentInfoResponse output = CommentInfoResponse.builder()
                 .id(source.getId())
-                //.userId(source.)
+                .userId(source.getUserId())
                 .content(source.getContent())
                 .publishDate(source.getPublishDate())
                 .lastEditedBy(source.getLastEditedBy())
