@@ -86,14 +86,6 @@
         </dependency>
 
 
-
-        <dependency>
-            <groupId>com.tinqinacademy.myhotel.restexport</groupId>
-            <artifactId>restexport</artifactId>
-            <version>${hotel.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>

@@ -1,4 +1,4 @@
-package com.tinqinacademy.bff.core.processor.comments.hotel;
+package com.tinqinacademy.bff.core.processor.comments.comment;
 
 
 import com.tinqinacademy.bff.api.models.errors.ErrorWrapper;
@@ -6,7 +6,6 @@ import com.tinqinacademy.bff.api.operations.comments.leavescommentsforcertainroo
 import com.tinqinacademy.bff.api.operations.comments.leavescommentsforcertainroom.LeaveCommentRequest;
 import com.tinqinacademy.bff.api.operations.comments.leavescommentsforcertainroom.LeaveCommentResponse;
 import com.tinqinacademy.bff.core.errorhandler.ErrorHandler;
-import com.tinqinacademy.bff.core.mappers.LeaveCommentMapper;
 import com.tinqinacademy.bff.core.processor.base.BaseOperationProcessor;
 import com.tinqinacademy.comments.api.operations.leavescommentsforcertainroom.LeaveCommentInput;
 import com.tinqinacademy.comments.api.operations.leavescommentsforcertainroom.LeaveCommentOutput;
@@ -23,13 +22,13 @@ import org.springframework.stereotype.Service;
 public class LeaveCommentOperationProcessor extends BaseOperationProcessor<LeaveCommentRequest, LeaveCommentResponse> implements LeaveCommentOperation {
 
     private final CommentsClient commentsClient;
-    private final LeaveCommentMapper leaveCommentMapper;
 
 
-    protected LeaveCommentOperationProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler, CommentsClient commentsClient, LeaveCommentMapper leaveCommentMapper) {
+
+    protected LeaveCommentOperationProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler, CommentsClient commentsClient) {
         super(conversionService, validator, errorHandler);
         this.commentsClient = commentsClient;
-        this.leaveCommentMapper = leaveCommentMapper;
+
 
     }
 
@@ -39,9 +38,10 @@ public class LeaveCommentOperationProcessor extends BaseOperationProcessor<Leave
 
         return Try.of(() -> {
                     log.info("Start leaving comment");
-                    LeaveCommentInput input = leaveCommentMapper.toLeaveCommentInput(request);
-                    LeaveCommentOutput comment = commentsClient.leaveComment(request.getRoomId(), input);
-                    LeaveCommentResponse output = LeaveCommentResponse.builder().id(comment.getId()).build();
+//                    LeaveCommentInput input = leaveCommentMapper.toLeaveCommentInput(request);
+//                    LeaveCommentOutput comment = commentsClient.leaveComment(request.getRoomId(), input);
+//                    LeaveCommentResponse output = LeaveCommentResponse.builder().id(comment.getId()).build();
+                        LeaveCommentResponse output = LeaveCommentResponse.builder().build();
                     log.info("End leaving comment");
                     return output;
                 })

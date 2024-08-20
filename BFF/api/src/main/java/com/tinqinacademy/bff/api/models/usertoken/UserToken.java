@@ -1,6 +1,6 @@
 package com.tinqinacademy.bff.api.models.usertoken;
 
-import com.tinqinacademy.bff.api.models.emuns.RoleType;
+import com.tinqinacademy.bff.api.models.enums.RoleType;
 import lombok.*;
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.tinqinacademy.bff.core.processor.comments.hotel;
+package com.tinqinacademy.bff.core.processor.comments.comment;
 import com.tinqinacademy.bff.api.models.errors.ErrorWrapper;
 import com.tinqinacademy.bff.api.operations.comments.returnsallcommentsforcertainroom.ReturnCommentOperation;
 import com.tinqinacademy.bff.api.operations.comments.returnsallcommentsforcertainroom.ReturnCommentRequest;

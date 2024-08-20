@@ -5,6 +5,7 @@ import com.tinqinacademy.bff.api.base.OperationRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
 
 import java.time.LocalDate;
 
@@ -18,6 +19,8 @@ public class BookRoomRequest implements OperationRequest {
 
 
     @JsonIgnore
+    @NotBlank
+    @UUID
     private String roomId;
 
     @Schema(example = "2024-08-01")
@@ -47,4 +50,9 @@ public class BookRoomRequest implements OperationRequest {
             message = "Phone number must start with a '+' followed by the country code and subscriber number digits"
     )
     private String phoneNo;
+
+    @JsonIgnore
+    @NotBlank
+    @UUID
+    private String userId;
 }

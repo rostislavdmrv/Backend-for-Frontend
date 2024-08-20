@@ -1,6 +1,8 @@
 package com.tinqinacademy.bff.api.operations.hotel.isroomavailable;
 
 import com.tinqinacademy.bff.api.base.OperationRequest;
+import com.tinqinacademy.bff.api.validations.bathroomtype.BathroomTypeValidation;
+import com.tinqinacademy.bff.api.validations.bedsize.BedSizeValidation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -14,8 +16,6 @@ import java.time.LocalDate;
 @Builder
 public class RoomRequest implements OperationRequest {
 
-    @NotBlank(message = "ID cannot be blank")
-    private String id;
 
     @Schema(example = "2024-08-01")
     @NotNull(message = "Start date cannot be null")
@@ -33,12 +33,12 @@ public class RoomRequest implements OperationRequest {
     private Integer bedCount;
 
     @Schema(example = "private")
-    @NotBlank(message = "Bathroom type cannot be blank")
+    @BathroomTypeValidation
     @Size(min= 3,max = 10, message = "Bathroom type cannot exceed 10 characters")
     private String bathroomType;
 
     @Schema(example = "kingSized")
-    @NotBlank(message = "Bed size cannot be blank")
+    @BedSizeValidation
     @Size(min =3, max = 10, message = "Bed size cannot exceed 10 characters")
     private String bedSize;
 

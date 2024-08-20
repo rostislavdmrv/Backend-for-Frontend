@@ -1,4 +1,4 @@
-package com.tinqinacademy.bff.core.processor.comments.hotel;
+package com.tinqinacademy.bff.core.processor.comments.comment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinqinacademy.bff.api.models.errors.ErrorWrapper;
