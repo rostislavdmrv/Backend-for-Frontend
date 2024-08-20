@@ -1,6 +1,6 @@
 package com.tinqinacademy.bff.api.models.input;
 
-import com.tinqinacademy.myhotel.api.base.OperationInput;
+import com.tinqinacademy.bff.api.base.OperationRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VisitorRequest implements OperationInput {
+public class VisitorRequest implements OperationRequest {
 
     @Schema(example = "2024-08-01")
     @NotNull(message = "Start date cannot be null")

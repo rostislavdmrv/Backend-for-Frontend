@@ -36,8 +36,9 @@ public class PartialUpdateRoomRequest implements OperationRequest {
 
     @Schema(example = "18A")
     @NotBlank(message = "Room number cannot be blank")
-    @Size(min = 1, max = 10, message = "Room number cannot exceed 10 characters" )
-    private String roomNo;
+    @Size(min = 2, max = 10, message = "Room number cannot exceed 10 characters" )
+    @Pattern(regexp = "[0-9]{1,10}[A-Z]?", message = "Valid room numbers start with numbers and could end with a letter")
+    private String roomNumber;
 
     @Schema(example = "89.99")
     @NotNull(message = "Price cannot be null")

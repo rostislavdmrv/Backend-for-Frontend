@@ -1,7 +1,7 @@
 package com.tinqinacademy.bff.api.operations.hotel.registersvisitors;
 
 import com.tinqinacademy.bff.api.base.OperationRequest;
-import com.tinqinacademy.myhotel.api.models.input.VisitorInput;
+import com.tinqinacademy.bff.api.models.input.VisitorRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 public class RegisterVisitorRequest implements OperationRequest {
 
-    @Valid
     @NotEmpty
-    private List<VisitorInput> visitorInputs;
+    private List<@Valid VisitorRequest> visitorInputs;
 }

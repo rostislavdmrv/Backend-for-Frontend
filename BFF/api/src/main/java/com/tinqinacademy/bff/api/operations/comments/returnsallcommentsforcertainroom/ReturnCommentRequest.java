@@ -1,7 +1,9 @@
 package com.tinqinacademy.bff.api.operations.comments.returnsallcommentsforcertainroom;
 
 import com.tinqinacademy.bff.api.base.OperationRequest;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
 
 @Getter
 @Setter
@@ -10,5 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ReturnCommentRequest implements OperationRequest {
+    @NotBlank
+    @UUID
     private String roomId;
 }

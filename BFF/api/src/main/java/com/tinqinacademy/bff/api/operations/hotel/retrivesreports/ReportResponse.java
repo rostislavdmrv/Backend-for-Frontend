@@ -1,7 +1,7 @@
 package com.tinqinacademy.bff.api.operations.hotel.retrivesreports;
 
 import com.tinqinacademy.bff.api.base.OperationResponse;
-import com.tinqinacademy.myhotel.api.models.output.VisitorReportOutput;
+import com.tinqinacademy.bff.api.models.output.VisitorReportResponse;
 import lombok.*;
 
 import java.util.List;
@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ReportResponse implements OperationResponse {
-    private List<VisitorReportOutput> reports;
+    private List<VisitorReportResponse> reports;
 }

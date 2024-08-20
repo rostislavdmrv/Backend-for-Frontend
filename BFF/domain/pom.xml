@@ -26,6 +26,15 @@
             <version>${auth.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.tinqinacademy.myhotel.restexport</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${hotel.version}</version>
+        </dependency>
+
+
+
+
     </dependencies>
 
 

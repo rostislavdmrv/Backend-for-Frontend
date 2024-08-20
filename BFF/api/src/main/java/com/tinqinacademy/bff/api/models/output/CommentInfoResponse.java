@@ -1,4 +1,4 @@
-package com.tinqinacademy.bff.api.operations.comments.returnsallcommentsforcertainroom;
+package com.tinqinacademy.bff.api.models.output;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,17 +14,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentInfo {
+public class CommentInfoResponse {
     @NotBlank(message = "ID cannot be blank")
     private String id;
 
-    @NotBlank(message = "First name cannot be blank")
-    @Size(min = 2,max = 30, message = "First name cannot exceed 30 characters")
-    private String firstName;
-
-    @NotBlank(message = "Last name cannot be blank")
-    @Size(min =2,max = 30, message = "Last name cannot exceed 30 characters")
-    private String lastName;
+    private String userId;
 
     @NotBlank(message = "Content name cannot be blank")
     @Size(min =2,max = 100, message = "content name cannot exceed 100 characters")
