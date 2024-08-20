@@ -7,6 +7,9 @@ import com.tinqinacademy.bff.api.operations.comments.editcommentbyuser.EditComme
 import com.tinqinacademy.bff.api.operations.comments.editcommentbyuser.EditCommentContentResponse;
 import com.tinqinacademy.bff.core.errorhandler.ErrorHandler;
 import com.tinqinacademy.bff.core.processor.base.BaseOperationProcessor;
+import com.tinqinacademy.comments.api.operations.editcommentcontentbyuser.EditCommentContentInput;
+import com.tinqinacademy.comments.api.operations.editcommentcontentbyuser.EditCommentContentOutput;
+import com.tinqinacademy.comments.restexport.CommentsClient;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import jakarta.validation.Validator;
@@ -20,22 +23,26 @@ import org.springframework.stereotype.Service;
 public class UpdateContentCommentOperationProcessor extends BaseOperationProcessor<EditCommentContentRequest, EditCommentContentResponse> implements EditCommentContentOperation {
 
     private final ObjectMapper objectMapper;
+    private final CommentsClient commentsClient;
 
 
-    protected UpdateContentCommentOperationProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler, ObjectMapper objectMapper) {
+    protected UpdateContentCommentOperationProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler, ObjectMapper objectMapper, CommentsClient commentsClient) {
         super(conversionService, validator, errorHandler);
         this.objectMapper = objectMapper;
+        this.commentsClient = commentsClient;
     }
 
 
     @Override
     public Either<ErrorWrapper, EditCommentContentResponse> process(EditCommentContentRequest input) {
-        log.info("Start updating content comment");
 
         return Try.of(() -> {
-
-                    EditCommentContentResponse output = EditCommentContentResponse.builder().build();
-                    log.info("End updating content comment");
+                    log.info("Start contentUpdateComment with input: {}", input);
+                    validateInput(input);
+                    EditCommentContentInput requestInput = conversionService.convert(input, EditCommentContentInput.class);
+                    EditCommentContentOutput requestOutput = commentsClient.updateContentComment(input.getContentId(), requestInput);
+                    EditCommentContentResponse output = conversionService.convert(requestOutput, EditCommentContentResponse.class);
+                    log.info("End contentUpdateComment with output: {}", output);
                     return output;
                 })
                 .toEither()
