@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class }, scanBasePackages = "com.tinqinacademy.bff")
-@EnableFeignClients(basePackages = "com.tinqinacademy.bff.rest.clients")
+@EnableFeignClients(basePackages = "com.tinqinacademy.bff.rest.config.clients")
 public class BffApplication {
 
     public static void main(String[] args) {
