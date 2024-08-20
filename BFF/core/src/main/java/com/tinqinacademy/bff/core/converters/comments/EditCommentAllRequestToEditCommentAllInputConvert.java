@@ -17,8 +17,8 @@ public class EditCommentAllRequestToEditCommentAllInputConvert implements Conver
                 .commentId(source.getCommentId())
                 .content(source.getContent())
                 .commentId(source.getCommentId())
-                //.roomId(source.getRoomId())
-                //.userId(source.getUserId())
+                .roomId(source.getRoomId())
+                .userId(source.getUserId())
                 .build();
 
         log.info("End converting from EditCommentAllRequest to EditCommentAllInput with output: {}", output);

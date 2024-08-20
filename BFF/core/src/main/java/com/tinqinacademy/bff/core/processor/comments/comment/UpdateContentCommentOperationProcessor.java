@@ -40,7 +40,7 @@ public class UpdateContentCommentOperationProcessor extends BaseOperationProcess
                     log.info("Start contentUpdateComment with input: {}", input);
                     validateInput(input);
                     EditCommentContentInput requestInput = conversionService.convert(input, EditCommentContentInput.class);
-                    EditCommentContentOutput requestOutput = commentsClient.updateContentComment(input.getContentId(), requestInput);
+                    EditCommentContentOutput requestOutput = commentsClient.updateContentComment(input.getCommentId(), requestInput);
                     EditCommentContentResponse output = conversionService.convert(requestOutput, EditCommentContentResponse.class);
                     log.info("End contentUpdateComment with output: {}", output);
                     return output;

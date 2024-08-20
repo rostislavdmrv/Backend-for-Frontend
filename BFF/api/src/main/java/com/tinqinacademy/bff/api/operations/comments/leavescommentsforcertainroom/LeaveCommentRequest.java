@@ -21,7 +21,7 @@ public class LeaveCommentRequest implements OperationRequest {
 
     @JsonIgnore
     @NotBlank
-    private String authorId;
+    private String userId;
 
     @NotBlank(message = "Content name cannot be blank")
     @Size(min =2,max = 100, message = "content name cannot exceed 100 characters")
