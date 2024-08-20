@@ -26,6 +26,7 @@ import com.tinqinacademy.bff.api.restapiroutes.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "MyHotel Client - REST APIs")
 public class HotelController  extends BaseController {
 
     //private final JWTContext jwtContext;

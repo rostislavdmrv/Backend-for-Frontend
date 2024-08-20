@@ -5,6 +5,10 @@ import com.tinqinacademy.bff.api.operations.comments.editcommentallbyadmin.EditC
 import com.tinqinacademy.bff.api.operations.comments.editcommentallbyadmin.EditCommentWholeOperation;
 import com.tinqinacademy.bff.core.errorhandler.ErrorHandler;
 import com.tinqinacademy.bff.core.processor.base.BaseOperationProcessor;
+import com.tinqinacademy.comments.api.operations.editcommentallbyadmin.EditCommentAllInput;
+import com.tinqinacademy.comments.api.operations.editcommentallbyadmin.EditCommentAllOutput;
+import com.tinqinacademy.comments.restexport.CommentsClient;
+import com.tinqinacademy.myhotel.restexport.HotelClient;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import jakarta.validation.Validator;
@@ -19,26 +23,37 @@ import java.util.UUID;
 @Slf4j
 public class UpdateCommentProcessor extends BaseOperationProcessor<EditCommentAllRequest, EditCommentAllResponse> implements EditCommentWholeOperation {
 
+    private final CommentsClient commentsClient;
+    private final HotelClient hotelClient;
 
-    protected UpdateCommentProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler) {
+    protected UpdateCommentProcessor(ConversionService conversionService, Validator validator, ErrorHandler errorHandler, CommentsClient commentsClient, HotelClient hotelClient) {
         super(conversionService, validator, errorHandler);
+        this.commentsClient = commentsClient;
+        this.hotelClient = hotelClient;
     }
 
 
     @Override
     public Either<ErrorWrapper, EditCommentAllResponse> process(EditCommentAllRequest input) {
-        log.info("Start updating whole comment by admin");
 
         return Try.of(() -> {
-
-
-                    EditCommentAllResponse output = EditCommentAllResponse.builder().build();
-
-                    log.info("End updating whole comment by admin");
+                    log.info("Start adminUpdateComment with input: {}", input);
+                    validateInput(input);
+                    checkRoomIfProvided(input);
+                    EditCommentAllInput requestInput = conversionService.convert(input, EditCommentAllInput.class);
+                    EditCommentAllOutput requestOutput = commentsClient.updateComment(input.getCommentId(), requestInput);
+                    EditCommentAllResponse output = conversionService.convert(requestOutput, EditCommentAllResponse.class);
+                    log.info("End adminUpdateComment with output: {}", output);
                     return output;
                 })
                 .toEither()
                 .mapLeft(errorHandler::handleErrors);
+    }
+
+    private void checkRoomIfProvided(EditCommentAllRequest input) {
+        if (input.getRoomId() != null) {
+            hotelClient.infoForRoom(input.getRoomId());
+        }
     }
 
 
