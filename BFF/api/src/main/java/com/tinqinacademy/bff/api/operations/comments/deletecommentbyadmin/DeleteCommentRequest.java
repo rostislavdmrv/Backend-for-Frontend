@@ -17,5 +17,5 @@ public class DeleteCommentRequest implements OperationRequest {
     @UUID
     @NotBlank(message = "Commend ID cannot be blank")
     @JsonIgnore
-    private String commendId;
+    private String commentId;
 }

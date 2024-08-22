@@ -10,12 +10,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class JwtAuthenticationEntrypoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        if (authException != null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-        }
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access denied");
+        String message = (authException != null) ? authException.getMessage() : "Access denied";
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, message);
     }
 }
