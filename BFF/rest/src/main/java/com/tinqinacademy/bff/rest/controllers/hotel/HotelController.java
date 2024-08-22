@@ -1,5 +1,6 @@
 package com.tinqinacademy.bff.rest.controllers.hotel;
 
+import com.tinqinacademy.bff.api.models.usertoken.CustomUser;
 import com.tinqinacademy.bff.api.operations.hotel.booksroomspecified.BookRoomOperation;
 import com.tinqinacademy.bff.api.operations.hotel.createsnewroomsbyadmin.CreateRoomOperation;
 import com.tinqinacademy.bff.api.operations.hotel.createsnewroomsbyadmin.CreateRoomRequest;
@@ -26,10 +27,12 @@ import com.tinqinacademy.bff.api.restapiroutes.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -39,7 +42,7 @@ import java.time.LocalDate;
 @Tag(name = "MyHotel Client - REST APIs")
 public class HotelController  extends BaseController {
 
-    //private final JWTContext jwtContext;
+
     private final BasicInfoRoomOperation basicInfoRoomOperation;
     private final BookRoomOperation bookRoomOperation;
     private final IsRoomFreeOperation isRoomFreeOperation;
@@ -50,12 +53,6 @@ public class HotelController  extends BaseController {
     private final DeleteRoomOperation deleteRoomOperation;
     private final PartialUpdateRoomOperation partialUpdateRoomOperation;
     private final UpdateRoomOperation updateRoomOperation;
-
-
-//        /BookRoomBFFInput input = request.toBuilder()
-//                .roomId(roomId)
-//                .userId(jwtContext.getUserId())
-//                .build();
 
 
     @Operation(summary = "Checks for available room for certain period",
@@ -116,10 +113,15 @@ public class HotelController  extends BaseController {
             @ApiResponse(responseCode = "404", description = "Room not found")
     })
     @PostMapping(RestApiRoutes.BOOK_ROOM)
+    @PreAuthorize("hasRole('USER')")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> bookRoom(@PathVariable String roomId, @RequestBody BookRoomRequest input) {
+
+        CustomUser user = getUserFromContext();
 
         BookRoomRequest updatedInput = input.toBuilder()
                 .roomId(roomId)
+                .userId(user.getUserId().toString())
                 .build();
 
         return handleWithStatus(bookRoomOperation.process(updatedInput), HttpStatus.CREATED);
@@ -135,10 +137,15 @@ public class HotelController  extends BaseController {
             @ApiResponse(responseCode = "404", description = "Reservation not found")
     })
     @DeleteMapping(RestApiRoutes.DELETE_RESERVATION)
+    @PreAuthorize("hasRole('USER')")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> removeBookedRoom(@PathVariable String bookingId) {
+
+        CustomUser user = getUserFromContext();
 
         UnbookRoomRequest unbookRoomInput = UnbookRoomRequest.builder()
                 .bookingId(bookingId)
+                .userId(user.getUserId().toString())
                 .build();
 
         return handleWithStatus(unbookRoomOperation.process(unbookRoomInput),HttpStatus.OK);
@@ -153,6 +160,7 @@ public class HotelController  extends BaseController {
 
     })
     @PostMapping(RestApiRoutes.REGISTER_NEW_GUEST)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerVisitorAsRenter(@RequestBody RegisterVisitorRequest input) {
 
         return handleWithStatus(registerVisitorOperation.process(input),HttpStatus.CREATED);

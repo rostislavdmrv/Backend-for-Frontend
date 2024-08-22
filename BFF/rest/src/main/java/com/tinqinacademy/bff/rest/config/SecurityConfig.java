@@ -1,53 +1,62 @@
 package com.tinqinacademy.bff.rest.config;
 
-import com.tinqinacademy.bff.api.exceptions.JwtOnlyModeException;
-import com.tinqinacademy.bff.core.security.JwtAuthenticationEntrypoint;
+import com.tinqinacademy.bff.core.security.JwtAuthenticationEntryPoint;
 import com.tinqinacademy.bff.core.security.JwtAuthenticationFilter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
+@Configuration
+@SecurityScheme(
+        name = "bearerAuth",
+        scheme = "bearer",
+        bearerFormat = "JWT",
+        type = SecuritySchemeType.HTTP,
+        in = SecuritySchemeIn.HEADER
+)
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtAuthenticationEntrypoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
-    public UserDetailsService emptyDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                throw new JwtOnlyModeException("No local users, only JWT tokens allowed.");//HttpStatus.NOT_FOUND
-            }
-        };
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/validate-jwt").permitAll()  // Allow access to the JWT validation endpoint
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")       // Secure admin endpoints
-                        .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN") // Secure user endpoints
-                        .anyRequest().permitAll()  // Permit all other requests
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/actuator/**",
+                                "/swagger-ui.html").permitAll()
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(s ->
+                        s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Stateless session management
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
